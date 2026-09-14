@@ -1,0 +1,113 @@
+{
+  "name": "Investment",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "user_name": {
+      "type": "string"
+    },
+    "user_email": {
+      "type": "string"
+    },
+    "principal": {
+      "type": "number",
+      "default": 0
+    },
+    "deposit_fee": {
+      "type": "number",
+      "default": 0
+    },
+    "total_paid": {
+      "type": "number",
+      "default": 0
+    },
+    "current_balance": {
+      "type": "number",
+      "default": 0
+    },
+    "earnings": {
+      "type": "number",
+      "default": 0
+    },
+    "rate_annual": {
+      "type": "number",
+      "default": 0
+    },
+    "investment_period": {
+      "type": "string",
+      "enum": [
+        "30_days",
+        "90_days",
+        "6_months",
+        "1_year"
+      ]
+    },
+    "period_days": {
+      "type": "number",
+      "default": 0
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "maturity_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "matured",
+        "withdrawn",
+        "renewed",
+        "closed"
+      ],
+      "default": "pending"
+    },
+    "withdrawable": {
+      "type": "boolean",
+      "default": false
+    },
+    "deposit_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "user_id",
+    "principal",
+    "investment_period"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

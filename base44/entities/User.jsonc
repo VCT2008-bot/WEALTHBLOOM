@@ -1,0 +1,28 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "super_admin",
+        "admin",
+        "user"
+      ],
+      "default": "user"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "account_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "suspended"
+      ],
+      "default": "active"
+    }
+  },
+  "required": []
+}

@@ -1,0 +1,76 @@
+{
+  "name": "EmailLog",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "user_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "email_type": {
+      "type": "string",
+      "enum": [
+        "welcome",
+        "payment_receipt",
+        "investment_active",
+        "maturity",
+        "withdrawal_submitted",
+        "withdrawal_receipt",
+        "withdrawal_completed",
+        "withdrawal_rejected",
+        "renewal",
+        "role_change",
+        "custom"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "sent",
+        "delivered",
+        "failed"
+      ],
+      "default": "pending"
+    },
+    "error": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "email",
+    "email_type"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

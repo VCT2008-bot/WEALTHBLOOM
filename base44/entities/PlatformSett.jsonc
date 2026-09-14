@@ -1,0 +1,60 @@
+{
+  "name": "PlatformSetting",
+  "type": "object",
+  "properties": {
+    "deposit_fee": {
+      "type": "number",
+      "default": 50
+    },
+    "withdrawal_fee": {
+      "type": "number",
+      "default": 50
+    },
+    "available_periods": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [
+        "30_days",
+        "90_days",
+        "6_months",
+        "1_year"
+      ]
+    },
+    "manual_approval": {
+      "type": "boolean",
+      "default": true
+    },
+    "platform_name": {
+      "type": "string",
+      "default": "WEALTHBLOOM"
+    },
+    "tagline": {
+      "type": "string",
+      "default": "Grow Your Wealth. Watch It Bloom."
+    }
+  },
+  "required": [
+    "deposit_fee",
+    "withdrawal_fee"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
