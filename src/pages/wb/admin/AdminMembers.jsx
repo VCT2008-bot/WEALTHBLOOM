@@ -152,15 +152,40 @@ export default function AdminMembers() {
                     {u.data?.account_status || "active"}
                   </span>
                   {canManageRole && uRole === "user" && (
-                    <Button variant="outline" size="sm" className="gap-1" title="Promote to Admin" onClick={() => setRoleTarget({ user: u, newRole: "admin" })}>
-                      <ArrowUpCircle className="w-4 h-4" /> Promote
-                    </Button>
-                  )}
-                  {canManageRole && uRole === "admin" && (
-                    <Button variant="outline" size="sm" className="gap-1" title="Demote to Member" onClick={() => setRoleTarget({ user: u, newRole: "user" })}>
-                      <ArrowDownCircle className="w-4 h-4" /> Demote
-                    </Button>
-                  )}
+  <Button
+    variant="outline"
+    size="sm"
+    className="gap-1"
+    title="Promote to Admin"
+    onClick={() => setRoleTarget({ user: u, newRole: "admin" })}
+  >
+    <ArrowUpCircle className="w-4 h-4" /> Promote
+  </Button>
+)}
+
+{canManageRole && uRole === "admin" && (
+  <>
+    <Button
+      variant="outline"
+      size="sm"
+      className="gap-1"
+      title="Promote to Super Admin"
+      onClick={() => setRoleTarget({ user: u, newRole: "super_admin" })}
+    >
+      <ShieldCheck className="w-4 h-4" /> Super Admin
+    </Button>
+
+    <Button
+      variant="outline"
+      size="sm"
+      className="gap-1"
+      title="Demote to Member"
+      onClick={() => setRoleTarget({ user: u, newRole: "user" })}
+    >
+      <ArrowDownCircle className="w-4 h-4" /> Demote
+    </Button>
+  </>
+)}
                   <Button variant="ghost" size="icon" title="Resend welcome" onClick={() => resendWelcome(u)}><Mail className="w-4 h-4" /></Button>
                   <Button variant="ghost" size="icon" title="Activate/Deactivate" onClick={() => toggleStatus(u)}><Power className="w-4 h-4" /></Button>
                   <Button variant="ghost" size="icon" title="Delete" onClick={() => setDeleteTarget(u)}><Trash2 className="w-4 h-4 text-rose-500" /></Button>
@@ -187,12 +212,24 @@ export default function AdminMembers() {
       {/* Role change confirmation */}
       <Dialog open={!!roleTarget} onOpenChange={(o) => !o && (setRoleTarget(null), setRoleReason(""))}>
         <DialogContent>
-          <DialogHeader><DialogTitle className="flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-emerald-600" /> {roleTarget?.newRole === "admin" ? "Promote to Admin" : "Demote to Member"}</DialogTitle></DialogHeader>
-          <p className="text-sm text-slate-600">
-            {roleTarget?.newRole === "admin"
-              ? `Are you sure you want to promote ${roleTarget?.user.full_name} to Admin? This will give the account administrative access.`
-              : `Are you sure you want to demote ${roleTarget?.user.full_name} back to Member? They will lose administrative access.`}
-          </p>
+          <DialogHeader>
+  <DialogTitle className="flex items-center gap-2">
+    <ShieldCheck className="w-5 h-5 text-emerald-600" />
+    {roleTarget?.newRole === "super_admin"
+      ? "Promote to Super Admin"
+      : roleTarget?.newRole === "admin"
+        ? "Promote to Admin"
+        : "Demote to Member"}
+  </DialogTitle>
+</DialogHeader>
+
+<p className="text-sm text-slate-600">
+  {roleTarget?.newRole === "super_admin"
+    ? `Are you sure you want to promote ${roleTarget?.user.full_name} to Super Admin? This will give the account full administrative and role-management access.`
+    : roleTarget?.newRole === "admin"
+      ? `Are you sure you want to promote ${roleTarget?.user.full_name} to Admin? This will give the account administrative access.`
+      : `Are you sure you want to demote ${roleTarget?.user.full_name} back to Member? They will lose administrative access.`}
+</p>
           <p className="text-xs text-slate-400">This changes permissions only. Investments, balances, earnings, deposits, withdrawals, transactions and fees are NOT affected.</p>
           <div><Label>Reason / note (optional)</Label><Input value={roleReason} onChange={(e) => setRoleReason(e.target.value)} placeholder="Reason for change (recorded in audit log)" /></div>
           <DialogFooter>
